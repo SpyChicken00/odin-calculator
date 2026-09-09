@@ -3,5 +3,21 @@ html {
 }
  
 body{
-    
+
 }
+
+.calculator-container{
+    border: 10px solid black;
+    width: 500px;
+    height: 100vh;
+    background-color: gray;
+}
+
+.calculator-display{
+    background-color:white;
+    height:100px;
+}
+
+.calculator-buttons{
+    display:flex;
+}   
