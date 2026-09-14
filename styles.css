@@ -21,6 +21,7 @@ body{
 
 .calculator-display{
     display:flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: end;
     height:150px;

@@ -37,12 +37,32 @@ function removeHighlight() {
     operatorButtons.map(button => button.style.outline = "none")
 }
 
-
 function updateNum(e) {
-    removeHighlight()
+    if (displayingResult) {
+        // //clear result and start new calculation
+        // currentResult = 0;
+        // firstNum = null;
+        // secondNum = null;
+        // displayingResult = false;
+        // currNumberP.innerText = ""
+        // prevResultP.innerText = ""
+        // return;
+        clearCalc()
+    }
 
-    currNumberP.innerText += e.target.textContent
-    //update calculator value
+    removeHighlight()
+    //remove extra zero at start of numbers
+    if (currNumberP.innerText === '0') currNumberP.innerText = ""
+
+    //update display
+    if (operatorPressed) {
+        currNumberP.innerText = e.target.textContent
+        operatorPressed = false;
+    } else {
+        currNumberP.innerText += e.target.textContent
+    }
+    
+    //update calc internal variables
     if (operator === "") {
         firstNum = parseFloat(currNumberP.innerText)
     } else {
@@ -53,27 +73,46 @@ function updateNum(e) {
 
 function updateOperator(e) {
     removeHighlight()
+    if(firstNum === null) return;
+    if(displayingResult) displayingResult = false;
 
     operator = e.target.textContent
     e.target.style.outline = "solid 3px white"
-    currNumberP.innerText = ""
+    operatorPressed = true;
 }
 
 function equalsCalc() {
+    if (operator == "") return;
+
     currentResult = operate(firstNum, operator, secondNum)
-    currNumberP.innerText = currentResult
-    prevResultP.innerText = currentResult
+    
+    if (currentResult === "Impossible Silly Goose!") {//if divide by 0
+        currentResult = 0;
+        operator = ""
+        prevResultP.innerText = "Impossible Silly Goose!"
+        currNumberP.innerText = currentResult
+    } else if (currentResult % 1 != 0) {//if float
+        currNumberP.innerText = parseFloat(currentResult.toFixed(10))
+        prevResultP.innerText = parseFloat(currentResult.toFixed(10))
+    } else {
+        currNumberP.innerText = currentResult
+        prevResultP.innerText = currentResult
+    }
     firstNum = currentResult
     secondNum = 0
+    displayingResult = true;
 }
 
 function clearCalc() {
-    firstNum = 0;
-    secondNum = 0;
-    currentResult = 0;
+    firstNum = null;
+    secondNum = null;
+    currentResult = null;
     operator = "";
-    currNumberP.innerText = "";
+    currNumberP.innerText = "0";
     prevResultP.innerText = "";
+    operatorPressed = false;
+    displayingResult = false;
+    
     removeHighlight();
 }
 
@@ -89,10 +128,12 @@ function negate(e) {
     }
 }
 
-let firstNum = 0;
+let firstNum = null;
+let secondNum = null;
+let currentResult = null;
 let operator = ""
-let secondNum = 0;
-let currentResult = 0;
+let operatorPressed = false;
+let displayingResult = false;
 
 //Display Paragraph Elements
 const currNumberP = document.querySelector("#currentNumber")
