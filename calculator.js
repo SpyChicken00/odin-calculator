@@ -1,8 +1,7 @@
 //Simple javascript calculator
 // 9-14-26
-//negate second number if negative before number replace with -0 0
 //Refactor Code with currentNumber tracker and update display/var functions, turned into spaghetti
-//Future Features - Keyboard support, memes instead of parenthesis, 
+//Future Features - Keyboard support
 
 function add(num1, num2) {
     return num1 + num2
@@ -44,15 +43,9 @@ function updateNum(e) {
     removeHighlight()
     if (currNumberP.textContent.length > 20) return;
     
-
     //remove extra zero at start of numbers
     if (currNumberP.innerText === '0') currNumberP.innerText = ""
     // if (currNumberP.innerText === '-0') currNumberP.innerText = "-"
-
-
-    //negate second number if negative before number after operator
-    //replace with -0 0
-    // if (secondNum === null && negated && operatorPressed) currNumberP.innerText = "-0"
     
     //update display
     if (operatorPressed) {
@@ -143,8 +136,9 @@ function negate() {
         firstNum = negatedNum
         currNumberP.textContent = temp
     }
-    if (operatorPressed) currNumberP.textContent = "-0"
     currNumberP.textContent = (currNumberP.textContent === "0")? `-${negatedNum}` : `${negatedNum}`;
+    if (operatorPressed) currNumberP.textContent = "-0"
+    
 }
 
 
@@ -179,6 +173,31 @@ function deleteCharacter(){
     }
 }
 
+function showMeme() {
+    if (!memeToggle) {
+        let img = document.createElement("img")
+        let span = document.createElement("span")
+        let p = document.createElement("p")
+        let link = document.createElement("a")
+        link.setAttribute("href", "https://spychicken00.github.io/odin-etch-a-sketch/")
+        link.textContent = "Forget this, lets draw something instead!"
+        img.setAttribute('src',"./images/math.jpg")
+        img.setAttribute("height", "300")
+        img.setAttribute('alt', "confused woman looking at math")
+        span.setAttribute('id', "meme")
+        span.setAttribute("style", 'margin:30px')
+        p.append(link)
+        span.appendChild(img)
+        span.appendChild(p)
+        document.querySelector("body").appendChild(span)
+    }
+    else {
+        document.querySelector("#meme").remove()
+    }
+    memeToggle = !memeToggle
+
+}
+
 let firstNum = null;
 let secondNum = null;
 let currentResult = null;
@@ -186,6 +205,7 @@ let operator = ""
 let operatorPressed = false;
 let displayingResult = false;
 let isNegated = false;
+let memeToggle = false;
 
 //Display Paragraph Elements
 const currNumberP = document.querySelector("#currentNumber")
@@ -198,6 +218,7 @@ const equalsButton = document.querySelector("#equals")
 const negateButton = document.querySelector("#negate")
 const decimalButton = document.querySelector("#decimal")
 const backButton = document.querySelector("#back")
+const parenthesisButton = document.querySelector("#parenthesis")
 
 const operatorButtons = Array.from(document.querySelectorAll("#operator"))
 const numButtons = Array.from(document.querySelectorAll("#num-button"))
@@ -208,6 +229,7 @@ equalsButton.addEventListener("click", equalsCalc)
 negateButton.addEventListener("click", negate)
 decimalButton.addEventListener("click", decimal)
 backButton.addEventListener("click", deleteCharacter)
+parenthesisButton.addEventListener("click", showMeme)
 
 operatorButtons.map((button) => {
     button.addEventListener("click", updateOperator)

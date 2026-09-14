@@ -7,13 +7,18 @@ body{
     background-color:rgb(82, 82, 82);
     display:flex;
     justify-content: center;
+} 
+a {
+    text-decoration:none;
+    color: white;
+    font: 30px bold Roboto
 }
 
 .calculator-container{
     outline: 10px solid black;
     width: 600px;
     height: 750px;
-    /* Calculator Color Shouldnt be visible if stretching properly */
+    /* This Shouldnt be visible if stretching properly */
     background-color: rgb(53, 212, 14);
 }
 
@@ -73,7 +78,3 @@ body{
     color:rgb(115, 115, 115);
     text-align: start;
 }
-
-/* #equals, #zero{
-    flex:2.7
-} */
