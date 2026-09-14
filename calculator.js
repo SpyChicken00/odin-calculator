@@ -11,13 +11,9 @@ function multiply(num1, num2) {
 }
 
 function divide(num1, num2) {
-    //need support for floats?
-    //dont allow dividing by 0, check here or later?
     if (num2 === 0) return "Impossible Silly Goose!"
     return num1 / num2
 }
-
-
 
 function operate(num1, operator, num2) {
     switch (operator) {
@@ -38,19 +34,11 @@ function removeHighlight() {
 }
 
 function updateNum(e) {
-    if (displayingResult) {
-        // //clear result and start new calculation
-        // currentResult = 0;
-        // firstNum = null;
-        // secondNum = null;
-        // displayingResult = false;
-        // currNumberP.innerText = ""
-        // prevResultP.innerText = ""
-        // return;
-        clearCalc()
-    }
-
+    if (displayingResult) clearCalc()
     removeHighlight()
+    if (currNumberP.textContent.length > 20) return;
+    
+
     //remove extra zero at start of numbers
     if (currNumberP.innerText === '0') currNumberP.innerText = ""
 
@@ -62,7 +50,7 @@ function updateNum(e) {
         currNumberP.innerText += e.target.textContent
     }
     
-    //update calc internal variables
+    //update calc internal variables based on display
     if (operator === "") {
         firstNum = parseFloat(currNumberP.innerText)
     } else {
@@ -72,9 +60,9 @@ function updateNum(e) {
 
 
 function updateOperator(e) {
-    removeHighlight()
     if(firstNum === null) return;
     if(displayingResult) displayingResult = false;
+    removeHighlight()
 
     operator = e.target.textContent
     e.target.style.outline = "solid 3px white"
@@ -112,11 +100,12 @@ function clearCalc() {
     prevResultP.innerText = "";
     operatorPressed = false;
     displayingResult = false;
-    
+    isNegated = false;
     removeHighlight();
 }
 
 function negate(e) {
+    isNegated = !isNegated
     //check that number exists
     if (currNumberP.textContent === "") return;
     const negatedNum = parseFloat(currNumberP.textContent) * -1;
@@ -126,6 +115,12 @@ function negate(e) {
     } else {
         secondNum = negatedNum;
     }
+    if (displayingResult) firstNum = negatedNum
+}
+
+function decimal(e) {
+    if (currNumberP.textContent.includes(".")) return;
+    currNumberP.textContent += "."
 }
 
 let firstNum = null;
@@ -134,6 +129,7 @@ let currentResult = null;
 let operator = ""
 let operatorPressed = false;
 let displayingResult = false;
+let isNegated = false;
 
 //Display Paragraph Elements
 const currNumberP = document.querySelector("#currentNumber")
@@ -144,6 +140,7 @@ const prevResultP = document.querySelector("#prevTotal")
 const clearButton = document.querySelector("#clear")
 const equalsButton = document.querySelector("#equals")
 const negateButton = document.querySelector("#negate")
+const decimalButton = document.querySelector("#decimal")
 
 const operatorButtons = Array.from(document.querySelectorAll("#operator"))
 const numButtons = Array.from(document.querySelectorAll("#num-button"))
@@ -152,6 +149,7 @@ const numButtons = Array.from(document.querySelectorAll("#num-button"))
 clearButton.addEventListener("click", clearCalc)
 equalsButton.addEventListener("click", equalsCalc)
 negateButton.addEventListener("click", negate)
+decimalButton.addEventListener("click", decimal)
 
 
 operatorButtons.map((button) => {
