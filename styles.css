@@ -4,7 +4,9 @@ html {
 }
  
 body{
-
+    background-color:rgb(82, 82, 82);
+    display:flex;
+    justify-content: center;
 }
 
 .calculator-container{
@@ -19,33 +21,30 @@ body{
 
 .calculator-display{
     display:flex;
-    justify-content: end;
+    justify-content: space-between;
     align-items: end;
     height:150px;
-
     background-color:rgb(19, 19, 19);
     color:rgb(209, 208, 208);
-    font: 40px bold Roboto, Georgia, 'Times New Roman', Times, serif;;
-      
+    font: 40px bold Roboto, Georgia, 'Times New Roman', Times, serif;; 
 }
 .calculator-display p{
-    margin:0px
+    margin:0px;
+    padding:10px;
 }
 
 .calculator-grid {
     display:flex;
     flex-direction: column;
     max-height: 600px;
-    
-    
 }
 .num-button{
-    background-color: lightsalmon;
+    color:rgb(209, 208, 208);
+    background-color: rgb(25, 25, 25);
     border-radius: 15px;
     padding: 50px;
     flex: 1;
     gap:4px;
-
 }
 
 .row{
@@ -59,12 +58,23 @@ body{
     flex: 1;
     border:none;
     padding:10px;
-
-    background-color:rgb(168, 73, 19);
-    color:rgb(209, 208, 208);
     font: 35px bold Roboto, Georgia, 'Times New Roman', Times, serif;
 }
 
-#equals, #zero{
-    flex:2.7
+.num-button.operator {
+    background-color:rgb(168, 73, 19);
+    color:rgb(209, 208, 208);
 }
+
+.num-button.function{
+    background-color: rgb(65, 65, 65);
+}
+
+#prevTotal {
+    color:rgb(115, 115, 115);
+    text-align: start;
+}
+
+/* #equals, #zero{
+    flex:2.7
+} */
