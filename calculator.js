@@ -1,3 +1,9 @@
+//Simple javascript calculator
+// 9-14-26
+//BUGS: Negate button doesnt always negate result?;
+// // only negates existing numbers so you have to press number then -/+
+//Future Features - Keyboard support, memes instead of parenthesis, fi negate
+
 function add(num1, num2) {
     return num1 + num2
 }
@@ -104,23 +110,56 @@ function clearCalc() {
     removeHighlight();
 }
 
-function negate(e) {
+//BUGGED / NOT IDEAL, first second num logic annoying
+function negate() {
     isNegated = !isNegated
     //check that number exists
     if (currNumberP.textContent === "") return;
     const negatedNum = parseFloat(currNumberP.textContent) * -1;
-    currNumberP.textContent = `${negatedNum}`;
+    currNumberP.textContent = (currNumberP.textContent === "0")? `-${negatedNum}` : `${negatedNum}`;
     if (operator === "") {
         firstNum = negatedNum;
     } else {
         secondNum = negatedNum;
     }
-    if (displayingResult) firstNum = negatedNum
+    if (displayingResult) {
+        const temp = parseFloat(currNumberP.textContent)
+        clearCalc()
+        firstNum = negatedNum
+        currNumberP.textContent = temp
+    }
 }
 
-function decimal(e) {
+
+function decimal() {
     if (currNumberP.textContent.includes(".")) return;
+    if (displayingResult){
+        const temp = parseFloat(currNumberP.textContent)
+        clearCalc()
+        firstNum = temp
+        currNumberP.textContent = temp
+    } 
     currNumberP.textContent += "."
+}
+
+function deleteCharacter(){
+    const length = currNumberP.textContent.length
+    if (currNumberP.textContent === "0") return
+    if(length === 1) {
+        currNumberP.textContent = "0"
+        return;
+    }
+
+    //cut off last character
+    currNumberP.textContent = currNumberP.textContent.substring(0, length - 1)
+    if(displayingResult) {
+        const temp = parseFloat(currNumberP.textContent)
+        clearCalc()
+        firstNum = temp
+        currNumberP.textContent = temp
+    } else {
+        firstNum = parseFloat(currNumberP.textContent)
+    }
 }
 
 let firstNum = null;
@@ -141,6 +180,7 @@ const clearButton = document.querySelector("#clear")
 const equalsButton = document.querySelector("#equals")
 const negateButton = document.querySelector("#negate")
 const decimalButton = document.querySelector("#decimal")
+const backButton = document.querySelector("#back")
 
 const operatorButtons = Array.from(document.querySelectorAll("#operator"))
 const numButtons = Array.from(document.querySelectorAll("#num-button"))
@@ -150,7 +190,7 @@ clearButton.addEventListener("click", clearCalc)
 equalsButton.addEventListener("click", equalsCalc)
 negateButton.addEventListener("click", negate)
 decimalButton.addEventListener("click", decimal)
-
+backButton.addEventListener("click", deleteCharacter)
 
 operatorButtons.map((button) => {
     button.addEventListener("click", updateOperator)
