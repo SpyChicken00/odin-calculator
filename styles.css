@@ -29,8 +29,7 @@ body{
     font: 40px bold Roboto, Georgia, 'Times New Roman', Times, serif;; 
 }
 .calculator-display p{
-    margin:0px;
-    padding:10px;
+    margin:10px;
 }
 
 .calculator-grid {
@@ -41,10 +40,6 @@ body{
 .num-button{
     color:rgb(209, 208, 208);
     background-color: rgb(25, 25, 25);
-    border-radius: 15px;
-    padding: 50px;
-    flex: 1;
-    gap:4px;
 }
 
 .row{
@@ -54,19 +49,22 @@ body{
     padding:5px 5px;
     background-color: black;
 }
-.num-button {
+.num-button, .operator, .function {
     flex: 1;
     border:none;
     padding:10px;
-    font: 35px bold Roboto, Georgia, 'Times New Roman', Times, serif;
-}
-
-.num-button.operator {
-    background-color:rgb(168, 73, 19);
+    border-radius: 15px;
+    font: 35px bold Roboto, Georgia, 
+        'Times New Roman', Times, serif;
     color:rgb(209, 208, 208);
 }
 
-.num-button.function{
+.operator {
+    background-color:rgb(168, 73, 19);
+    
+}
+
+.function{
     background-color: rgb(65, 65, 65);
 }
 

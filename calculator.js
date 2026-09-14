@@ -1,6 +1,3 @@
-//This is a javascript comment yeah
-
-
 function add(num1, num2) {
     return num1 + num2
 }
@@ -37,28 +34,28 @@ function operate(num1, operator, num2) {
 }
 
 function removeHighlight() {
-    operatorButtons.map(button => button.style.border = "none")
+    operatorButtons.map(button => button.style.outline = "none")
 }
 
-//called when the user preses a button
+
 function updateNum(e) {
     removeHighlight()
 
-
     currNumberP.innerText += e.target.textContent
-    //update calculator value 
+    //update calculator value
     if (operator === "") {
-        firstNum = parseInt(currNumberP.innerText)
+        firstNum = parseFloat(currNumberP.innerText)
     } else {
-        secondNum = parseInt(currNumberP.innerText)
+        secondNum = parseFloat(currNumberP.innerText)
     }
 }
+
 
 function updateOperator(e) {
     removeHighlight()
 
     operator = e.target.textContent
-    e.target.style.border = "solid 3px white"
+    e.target.style.outline = "solid 3px white"
     currNumberP.innerText = ""
 }
 
@@ -74,37 +71,52 @@ function clearCalc() {
     firstNum = 0;
     secondNum = 0;
     currentResult = 0;
-    operator = ""
-    currNumberP.innerText = ""
+    operator = "";
+    currNumberP.innerText = "";
     prevResultP.innerText = "";
-    removeHighlight()
+    removeHighlight();
 }
 
-
-const currNumberP = document.querySelector("#currentNumber")
-const prevResultP = document.querySelector("#prevTotal")
-
-const clearButton = document.querySelector("#clear")
-
-const equalsButton = document.querySelector("#equals")
-const plusButton = document.querySelector("#add")
-const operatorButtons = [equalsButton, plusButton]
-
-const oneButton = document.querySelector("#one")
-const twoButton = document.querySelector("#two")
-const threeButton = document.querySelector("#three")
-const numButtons = [oneButton, twoButton, threeButton]
-
-clearButton.addEventListener("click", clearCalc)
-equalsButton.addEventListener("click", equalsCalc)
-plusButton.addEventListener("click", updateOperator)
-
-
-numButtons.map((button) => {
-    button.addEventListener("click", updateNum)
-})
+function negate(e) {
+    //check that number exists
+    if (currNumberP.textContent === "") return;
+    const negatedNum = parseFloat(currNumberP.textContent) * -1;
+    currNumberP.textContent = `${negatedNum}`;
+    if (operator === "") {
+        firstNum = negatedNum;
+    } else {
+        secondNum = negatedNum;
+    }
+}
 
 let firstNum = 0;
 let operator = ""
 let secondNum = 0;
 let currentResult = 0;
+
+//Display Paragraph Elements
+const currNumberP = document.querySelector("#currentNumber")
+const prevResultP = document.querySelector("#prevTotal")
+
+//Calculator Buttons
+//Special Buttons -> Clear, Equals, (Backspace, Paranthesis, Negate, Decimal)
+const clearButton = document.querySelector("#clear")
+const equalsButton = document.querySelector("#equals")
+const negateButton = document.querySelector("#negate")
+
+const operatorButtons = Array.from(document.querySelectorAll("#operator"))
+const numButtons = Array.from(document.querySelectorAll("#num-button"))
+
+//Event Listeners
+clearButton.addEventListener("click", clearCalc)
+equalsButton.addEventListener("click", equalsCalc)
+negateButton.addEventListener("click", negate)
+
+
+operatorButtons.map((button) => {
+    button.addEventListener("click", updateOperator)
+})
+numButtons.map((button) => {
+    button.addEventListener("click", updateNum)
+})
+
