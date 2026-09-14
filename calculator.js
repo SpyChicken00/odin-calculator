@@ -1,8 +1,8 @@
 //Simple javascript calculator
 // 9-14-26
-//BUGS: Negate button doesnt always negate result?;
-// // only negates existing numbers so you have to press number then -/+
-//Future Features - Keyboard support, memes instead of parenthesis, fi negate
+//negate second number if negative before number replace with -0 0
+//Refactor Code with currentNumber tracker and update display/var functions, turned into spaghetti
+//Future Features - Keyboard support, memes instead of parenthesis, 
 
 function add(num1, num2) {
     return num1 + num2
@@ -47,13 +47,28 @@ function updateNum(e) {
 
     //remove extra zero at start of numbers
     if (currNumberP.innerText === '0') currNumberP.innerText = ""
+    // if (currNumberP.innerText === '-0') currNumberP.innerText = "-"
 
+
+    //negate second number if negative before number after operator
+    //replace with -0 0
+    // if (secondNum === null && negated && operatorPressed) currNumberP.innerText = "-0"
+    
     //update display
     if (operatorPressed) {
-        currNumberP.innerText = e.target.textContent
+        if (currNumberP.textContent === "-0") {
+            currNumberP.innerText = `${parseFloat(e.target.textContent) * -1}`
+        } else{
+            currNumberP.innerText = e.target.textContent
+        }
+        
         operatorPressed = false;
     } else {
-        currNumberP.innerText += e.target.textContent
+        if (currNumberP.textContent === "-0") {
+            currNumberP.innerText = `${parseFloat(e.target.textContent) * -1}`
+        } else{
+            currNumberP.innerText += e.target.textContent
+        }
     }
     
     //update calc internal variables based on display
@@ -93,7 +108,7 @@ function equalsCalc() {
         prevResultP.innerText = currentResult
     }
     firstNum = currentResult
-    secondNum = 0
+    secondNum = null
     displayingResult = true;
 }
 
@@ -110,13 +125,13 @@ function clearCalc() {
     removeHighlight();
 }
 
-//BUGGED / NOT IDEAL, first second num logic annoying
+
 function negate() {
     isNegated = !isNegated
     //check that number exists
     if (currNumberP.textContent === "") return;
     const negatedNum = parseFloat(currNumberP.textContent) * -1;
-    currNumberP.textContent = (currNumberP.textContent === "0")? `-${negatedNum}` : `${negatedNum}`;
+    
     if (operator === "") {
         firstNum = negatedNum;
     } else {
@@ -128,6 +143,8 @@ function negate() {
         firstNum = negatedNum
         currNumberP.textContent = temp
     }
+    if (operatorPressed) currNumberP.textContent = "-0"
+    currNumberP.textContent = (currNumberP.textContent === "0")? `-${negatedNum}` : `${negatedNum}`;
 }
 
 
