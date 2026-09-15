@@ -1,7 +1,8 @@
 //Simple javascript calculator
 // 9-14-26
 //Refactor Code with currentNumber tracker and update display/var functions, turned into spaghetti
-//Future Features - Keyboard support
+//Bugs -> On Linux sometimes numpad * / act funky and give 0 or infinity answers that dont make sense
+
 
 function add(num1, num2) {
     return num1 + num2
@@ -205,6 +206,11 @@ function showMeme() {
 }
 
 function keyboardControls(e){
+    console.log(e.key)
+    console.log(firstNum)
+    console.log(secondNum)
+    console.log(currentResult)
+    console.log(operator)
     switch(e.key) {
         case "1":
         case "2":
@@ -225,7 +231,7 @@ function keyboardControls(e){
             updateOperator(e.key)
             break;
         case "Enter":
-            equalsCalc()
+            equalsCalc()    
             break;
         case "Backspace":
             deleteCharacter()
