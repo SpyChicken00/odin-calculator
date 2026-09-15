@@ -38,48 +38,52 @@ function removeHighlight() {
     operatorButtons.map(button => button.style.outline = "none")
 }
 
+function addHighlight(operatorText) {
+    let button = (operatorButtons.filter((button) => {return button.textContent === operatorText}))[0]
+    button.style.outline = "solid 3px white" 
+}
+
 function updateNum(numText) {
     if (displayingResult) clearCalc()
     removeHighlight()
     if (currNumberP.textContent.length > 20) return;
     
     //remove extra zero at start of numbers
-    if (currNumberP.innerText === '0') currNumberP.innerText = ""
-    // if (currNumberP.innerText === '-0') currNumberP.innerText = "-"
+    if (currNumberP.textContent === '0') currNumberP.textContent = ""
+    // if (currNumberP.textContent === '-0') currNumberP.textContent = "-"
     
     //update display
     if (operatorPressed) {
         if (currNumberP.textContent === "-0") {
-            currNumberP.innerText = `${parseFloat(numText) * -1}`
+            currNumberP.textContent = `${parseFloat(numText) * -1}`
         } else{
-            currNumberP.innerText = numText
+            currNumberP.textContent = numText
         }
         
         operatorPressed = false;
     } else {
         if (currNumberP.textContent === "-0") {
-            currNumberP.innerText = `${parseFloat(numText) * -1}`
+            currNumberP.textContent = `${parseFloat(numText) * -1}`
         } else{
-            currNumberP.innerText += numText
+            currNumberP.textContent += numText
         }
     }
     
     //update calc internal variables based on display
     if (operator === "") {
-        firstNum = parseFloat(currNumberP.innerText)
+        firstNum = parseFloat(currNumberP.textContent)
     } else {
-        secondNum = parseFloat(currNumberP.innerText)
+        secondNum = parseFloat(currNumberP.textContent)
     }
 }
 
-
-function updateOperator(e) {
+function updateOperator(operatorText) {
     if(firstNum === null) return;
     if(displayingResult) displayingResult = false;
     removeHighlight()
 
-    operator = e.target.textContent
-    e.target.style.outline = "solid 3px white"
+    operator = operatorText
+    addHighlight(operatorText)
     operatorPressed = true;
 }
 
@@ -91,14 +95,14 @@ function equalsCalc() {
     if (currentResult === "Impossible Silly Goose!") {//if divide by 0
         currentResult = 0;
         operator = ""
-        prevResultP.innerText = "Impossible Silly Goose!"
-        currNumberP.innerText = currentResult
+        prevResultP.textContent = "Impossible Silly Goose!"
+        currNumberP.textContent = currentResult
     } else if (currentResult % 1 != 0) {//if float
-        currNumberP.innerText = parseFloat(currentResult.toFixed(10))
-        prevResultP.innerText = parseFloat(currentResult.toFixed(10))
+        currNumberP.textContent = parseFloat(currentResult.toFixed(10))
+        prevResultP.textContent = parseFloat(currentResult.toFixed(10))
     } else {
-        currNumberP.innerText = currentResult
-        prevResultP.innerText = currentResult
+        currNumberP.textContent = currentResult
+        prevResultP.textContent = currentResult
     }
     firstNum = currentResult
     secondNum = null
@@ -110,8 +114,8 @@ function clearCalc() {
     secondNum = null;
     currentResult = null;
     operator = "";
-    currNumberP.innerText = "0";
-    prevResultP.innerText = "";
+    currNumberP.textContent = "0";
+    prevResultP.textContent = "";
     operatorPressed = false;
     displayingResult = false;
     isNegated = false;
@@ -198,7 +202,7 @@ function showMeme() {
 }
 
 function keyboardControls(e){
-    // currNumberP.innerText = e.key
+    // currNumberP.textContent = e.key
     //check if valid key, if so send to updateNum function? 
     switch(e.key) {
         case "1":
@@ -218,6 +222,7 @@ function keyboardControls(e){
         case "*":
         case "/":
             updateOperator(e.key)
+            console.log("pressed" + e.key)
             break;
         case "Enter":
             //press equals button
@@ -259,10 +264,10 @@ backButton.addEventListener("click", deleteCharacter)
 parenthesisButton.addEventListener("click", showMeme)
 
 operatorButtons.map((button) => {
-    button.addEventListener("click", (e) => {updateOperator(e.target.innerText)})
+    button.addEventListener("click", (e) => {updateOperator(e.target.textContent)})
 })
 numButtons.map((button) => {
-    button.addEventListener("click", (e) => {updateNum(e.target.innerText)})
+    button.addEventListener("click", (e) => {updateNum(e.target.textContent)})
 })
 
 document.addEventListener("keydown", keyboardControls)
