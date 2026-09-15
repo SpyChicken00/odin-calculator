@@ -222,9 +222,23 @@ function keyboardControls(e){
         case "*":
         case "/":
             updateOperator(e.key)
-            console.log("pressed" + e.key)
             break;
         case "Enter":
+            equalsCalc()
+            break;
+        case "Backspace":
+            break;
+        case "(":
+        case ")":
+            break;
+        case ".":
+            break;
+        case "m":
+            //negate()
+            break;
+        case "c":
+            clearCalc();
+            break;
             //press equals button
     }
     
