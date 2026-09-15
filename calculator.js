@@ -177,27 +177,29 @@ function deleteCharacter(){
         firstNum = parseFloat(displayNumP.textContent)
     }
 }
-
+function makeMeme() {
+    let img = document.createElement("img")
+    let span = document.createElement("span")
+    let p = document.createElement("p")
+    let link = document.createElement("a")
+    link.setAttribute("href", "https://spychicken00.github.io/odin-etch-a-sketch/")
+    link.textContent = "Forget this, lets draw something instead!"
+    img.setAttribute('src',"./images/math.jpg")
+    img.setAttribute("height", "300")
+    img.setAttribute('alt', "confused woman looking at math")
+    span.setAttribute('id', "meme")
+    span.setAttribute("style", 'margin:30px')
+    p.append(link)
+    span.appendChild(img)
+    span.appendChild(p)
+    return span;
+}
 function showMeme() {
     if (!memeToggle) {
-        let img = document.createElement("img")
-        let span = document.createElement("span")
-        let p = document.createElement("p")
-        let link = document.createElement("a")
-        link.setAttribute("href", "https://spychicken00.github.io/odin-etch-a-sketch/")
-        link.textContent = "Forget this, lets draw something instead!"
-        img.setAttribute('src',"./images/math.jpg")
-        img.setAttribute("height", "300")
-        img.setAttribute('alt', "confused woman looking at math")
-        span.setAttribute('id', "meme")
-        span.setAttribute("style", 'margin:30px')
-        p.append(link)
-        span.appendChild(img)
-        span.appendChild(p)
-        document.querySelector("body").appendChild(span)
+        document.querySelector("body").appendChild(memeSpan)
     }
     else {
-        document.querySelector("#meme").remove()
+        memeSpan.remove()
     }
     memeToggle = !memeToggle
 }
@@ -256,6 +258,7 @@ let memeToggle = false;
 //Display Paragraph Elements
 const displayNumP = document.querySelector("#currentNumber")
 const prevResultP = document.querySelector("#prevTotal")
+const memeSpan = makeMeme()
 
 //Calculator Buttons
 const clearButton = document.querySelector("#clear")
