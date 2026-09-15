@@ -46,34 +46,34 @@ function addHighlight(operatorText) {
 function updateNum(numText) {
     if (displayingResult) clearCalc()
     removeHighlight()
-    if (currNumberP.textContent.length > 20) return;
+    if (displayNumP.textContent.length > 20) return;
     
     //remove extra zero at start of numbers
-    if (currNumberP.textContent === '0') currNumberP.textContent = ""
-    // if (currNumberP.textContent === '-0') currNumberP.textContent = "-"
+    if (displayNumP.textContent === '0') displayNumP.textContent = ""
+    // if (displayNumP.textContent === '-0') displayNumP.textContent = "-"
     
     //update display
     if (operatorPressed) {
-        if (currNumberP.textContent === "-0") {
-            currNumberP.textContent = `${parseFloat(numText) * -1}`
+        if (displayNumP.textContent === "-0") {
+            displayNumP.textContent = `${parseFloat(numText) * -1}`
         } else{
-            currNumberP.textContent = numText
+            displayNumP.textContent = numText
         }
         
         operatorPressed = false;
     } else {
-        if (currNumberP.textContent === "-0") {
-            currNumberP.textContent = `${parseFloat(numText) * -1}`
+        if (displayNumP.textContent === "-0") {
+            displayNumP.textContent = `${parseFloat(numText) * -1}`
         } else{
-            currNumberP.textContent += numText
+            displayNumP.textContent += numText
         }
     }
     
     //update calc internal variables based on display
     if (operator === "") {
-        firstNum = parseFloat(currNumberP.textContent)
+        firstNum = parseFloat(displayNumP.textContent)
     } else {
-        secondNum = parseFloat(currNumberP.textContent)
+        secondNum = parseFloat(displayNumP.textContent)
     }
 }
 
@@ -96,12 +96,12 @@ function equalsCalc() {
         currentResult = 0;
         operator = ""
         prevResultP.textContent = "Impossible Silly Goose!"
-        currNumberP.textContent = currentResult
+        displayNumP.textContent = currentResult
     } else if (currentResult % 1 != 0) {//if float
-        currNumberP.textContent = parseFloat(currentResult.toFixed(10))
+        displayNumP.textContent = parseFloat(currentResult.toFixed(10))
         prevResultP.textContent = parseFloat(currentResult.toFixed(10))
     } else {
-        currNumberP.textContent = currentResult
+        displayNumP.textContent = currentResult
         prevResultP.textContent = currentResult
     }
     firstNum = currentResult
@@ -114,7 +114,7 @@ function clearCalc() {
     secondNum = null;
     currentResult = null;
     operator = "";
-    currNumberP.textContent = "0";
+    displayNumP.textContent = "0";
     prevResultP.textContent = "";
     operatorPressed = false;
     displayingResult = false;
@@ -126,8 +126,8 @@ function clearCalc() {
 function negate() {
     isNegated = !isNegated
     //check that number exists
-    if (currNumberP.textContent === "") return;
-    const negatedNum = parseFloat(currNumberP.textContent) * -1;
+    if (displayNumP.textContent === "") return;
+    const negatedNum = parseFloat(displayNumP.textContent) * -1;
     
     if (operator === "") {
         firstNum = negatedNum;
@@ -135,45 +135,45 @@ function negate() {
         secondNum = negatedNum;
     }
     if (displayingResult) {
-        const temp = parseFloat(currNumberP.textContent)
+        const temp = parseFloat(displayNumP.textContent)
         clearCalc()
         firstNum = negatedNum
-        currNumberP.textContent = temp
+        displayNumP.textContent = temp
     }
-    currNumberP.textContent = (currNumberP.textContent === "0")? `-${negatedNum}` : `${negatedNum}`;
-    if (operatorPressed) currNumberP.textContent = "-0"
+    displayNumP.textContent = (displayNumP.textContent === "0")? `-${negatedNum}` : `${negatedNum}`;
+    if (operatorPressed) displayNumP.textContent = "-0"
     
 }
 
 
 function decimal() {
-    if (currNumberP.textContent.includes(".")) return;
+    if (displayNumP.textContent.includes(".")) return;
     if (displayingResult){
-        const temp = parseFloat(currNumberP.textContent)
+        const temp = parseFloat(displayNumP.textContent)
         clearCalc()
         firstNum = temp
-        currNumberP.textContent = temp
+        displayNumP.textContent = temp
     } 
-    currNumberP.textContent += "."
+    displayNumP.textContent += "."
 }
 
 function deleteCharacter(){
-    const length = currNumberP.textContent.length
-    if (currNumberP.textContent === "0") return
+    const length = displayNumP.textContent.length
+    if (displayNumP.textContent === "0") return
     if(length === 1) {
-        currNumberP.textContent = "0"
+        displayNumP.textContent = "0"
         return;
     }
 
     //cut off last character
-    currNumberP.textContent = currNumberP.textContent.substring(0, length - 1)
+    displayNumP.textContent = displayNumP.textContent.substring(0, length - 1)
     if(displayingResult) {
-        const temp = parseFloat(currNumberP.textContent)
+        const temp = parseFloat(displayNumP.textContent)
         clearCalc()
         firstNum = temp
-        currNumberP.textContent = temp
+        displayNumP.textContent = temp
     } else {
-        firstNum = parseFloat(currNumberP.textContent)
+        firstNum = parseFloat(displayNumP.textContent)
     }
 }
 
@@ -202,8 +202,6 @@ function showMeme() {
 }
 
 function keyboardControls(e){
-    // currNumberP.textContent = e.key
-    //check if valid key, if so send to updateNum function? 
     switch(e.key) {
         case "1":
         case "2":
@@ -227,21 +225,22 @@ function keyboardControls(e){
             equalsCalc()
             break;
         case "Backspace":
+            deleteCharacter()
             break;
         case "(":
         case ")":
+            showMeme()
             break;
         case ".":
+            decimal()
             break;
-        case "m":
-            //negate()
+        case "n":
+            negate()
             break;
         case "c":
             clearCalc();
             break;
-            //press equals button
     }
-    
 }
 
 let firstNum = null;
@@ -254,11 +253,10 @@ let isNegated = false;
 let memeToggle = false;
 
 //Display Paragraph Elements
-const currNumberP = document.querySelector("#currentNumber")
+const displayNumP = document.querySelector("#currentNumber")
 const prevResultP = document.querySelector("#prevTotal")
 
 //Calculator Buttons
-//Special Buttons -> Clear, Equals, (Backspace, Paranthesis, Negate, Decimal)
 const clearButton = document.querySelector("#clear")
 const equalsButton = document.querySelector("#equals")
 const negateButton = document.querySelector("#negate")
