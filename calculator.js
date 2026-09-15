@@ -89,9 +89,10 @@ function updateOperator(operatorText) {
 }
 
 function equalsCalc() {
-    if (operator == "") return;
+    if (operator === "") return;
 
     currentResult = operate(firstNum, operator, secondNum)
+    if (currentResult === -0) currentResult = 0;
     
     if (currentResult === "Impossible Silly Goose!") {//if divide by 0
         currentResult = 0;
@@ -99,7 +100,7 @@ function equalsCalc() {
 
         prevResultP.textContent = "Impossible Silly Goose!"
         displayNumP.textContent = "0"
-    } else if (currentResult % 1 != 0) {//if float
+    } else if (currentResult % 1 !== 0) {//if float
         displayNumP.textContent = parseFloat(currentResult.toFixed(10))
         prevResultP.textContent = parseFloat(currentResult.toFixed(10))
     } else {
