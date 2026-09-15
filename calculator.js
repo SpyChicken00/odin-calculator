@@ -38,7 +38,7 @@ function removeHighlight() {
     operatorButtons.map(button => button.style.outline = "none")
 }
 
-function updateNum(e) {
+function updateNum(numText) {
     if (displayingResult) clearCalc()
     removeHighlight()
     if (currNumberP.textContent.length > 20) return;
@@ -50,17 +50,17 @@ function updateNum(e) {
     //update display
     if (operatorPressed) {
         if (currNumberP.textContent === "-0") {
-            currNumberP.innerText = `${parseFloat(e.target.textContent) * -1}`
+            currNumberP.innerText = `${parseFloat(numText) * -1}`
         } else{
-            currNumberP.innerText = e.target.textContent
+            currNumberP.innerText = numText
         }
         
         operatorPressed = false;
     } else {
         if (currNumberP.textContent === "-0") {
-            currNumberP.innerText = `${parseFloat(e.target.textContent) * -1}`
+            currNumberP.innerText = `${parseFloat(numText) * -1}`
         } else{
-            currNumberP.innerText += e.target.textContent
+            currNumberP.innerText += numText
         }
     }
     
@@ -195,7 +195,34 @@ function showMeme() {
         document.querySelector("#meme").remove()
     }
     memeToggle = !memeToggle
+}
 
+function keyboardControls(e){
+    // currNumberP.innerText = e.key
+    //check if valid key, if so send to updateNum function? 
+    switch(e.key) {
+        case "1":
+        case "2":
+        case "3":
+        case "4":
+        case "5":
+        case "6":
+        case "7":
+        case "8":
+        case "9":
+        case "0":
+            updateNum(e.key)
+            break;
+        case "+":
+        case "-":
+        case "*":
+        case "/":
+            updateOperator(e.key)
+            break;
+        case "Enter":
+            //press equals button
+    }
+    
 }
 
 let firstNum = null;
@@ -232,9 +259,11 @@ backButton.addEventListener("click", deleteCharacter)
 parenthesisButton.addEventListener("click", showMeme)
 
 operatorButtons.map((button) => {
-    button.addEventListener("click", updateOperator)
+    button.addEventListener("click", (e) => {updateOperator(e.target.innerText)})
 })
 numButtons.map((button) => {
-    button.addEventListener("click", updateNum)
+    button.addEventListener("click", (e) => {updateNum(e.target.innerText)})
 })
+
+document.addEventListener("keydown", keyboardControls)
 
