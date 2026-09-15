@@ -1,6 +1,7 @@
-html {
+html, body{
     box-sizing: border-box;
     margin: 0px;
+    padding: 0px;
 }
  
 body{
@@ -11,42 +12,41 @@ body{
 a {
     text-decoration:none;
     color: white;
-    font: 30px bold Roboto
+    font: 30px bold Georgia
 }
 
 .calculator-container{
-    outline: 10px solid black;
-    /* display:flex;
-    flex-direction:column */
-    /* width: 600px;
-    height: 750px; */
-    /* This Shouldnt be visible if stretching properly */
-    background-color: rgb(53, 212, 14);
+    height: 100vh;
+    box-sizing: border-box;
+    flex: 0 2 600px;
+    border: 10px solid black;
+
+    display:flex;
+    flex-direction:column;
 }
 
 /* Calculator Components */
+.calculator-display p{
+    margin:10px;
+}
 
 .calculator-display{
-    /* flex: 2;  */
+    flex: 1 1 150px; 
 
     display:flex;
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: end;
-    height:150px;
+    
     background-color:rgb(19, 19, 19);
     color:rgb(209, 208, 208);
     font: 40px bold Georgia, 'Times New Roman', Times, serif;
 }
-.calculator-display p{
-    margin:10px;
-}
 
 .calculator-grid {
-    flex: 2;
+    flex: 2 2 600px;
     display:flex;
     flex-direction: column;
-    /* max-height: 600px; */
 }
 .num-button{
     color:rgb(209, 208, 208);
@@ -54,7 +54,7 @@ a {
 }
 
 .row{
-    flex: 1 1 150px;
+    flex: 1;
     display:flex;
     gap:10px;
     padding:5px 5px;

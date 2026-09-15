@@ -95,8 +95,9 @@ function equalsCalc() {
     if (currentResult === "Impossible Silly Goose!") {//if divide by 0
         currentResult = 0;
         operator = ""
+
         prevResultP.textContent = "Impossible Silly Goose!"
-        displayNumP.textContent = currentResult
+        displayNumP.textContent = "0"
     } else if (currentResult % 1 != 0) {//if float
         displayNumP.textContent = parseFloat(currentResult.toFixed(10))
         prevResultP.textContent = parseFloat(currentResult.toFixed(10))
