@@ -206,11 +206,6 @@ function showMeme() {
 }
 
 function keyboardControls(e){
-    console.log(e.key)
-    console.log(firstNum)
-    console.log(secondNum)
-    console.log(currentResult)
-    console.log(operator)
     switch(e.key) {
         case "1":
         case "2":
